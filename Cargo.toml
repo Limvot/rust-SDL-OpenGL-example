@@ -1,0 +1,11 @@
+[package]
+
+name = "rustSDLOpenGL_test"
+version = "0.0.1"
+authors = ["Nathan Braswell <miloignis@gmail.com>"]
+
+[dependencies]
+sdl2 = "0.0.17"
+
+[dependencies.gl]
+git = "https://github.com/bjz/gl-rs"
