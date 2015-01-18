@@ -2,7 +2,7 @@ extern crate sdl2;
 extern crate collections;
 extern crate gl;
 
-use sdl2::video::{Window, WindowPos, OPENGL};
+use sdl2::video::{Window, WindowPos, OPENGL, gl_set_attribute};
 use sdl2::render::{RenderDriverIndex, ACCELERATED, Renderer};
 use sdl2::pixels::Color;
 use sdl2::event::poll_event;
@@ -42,6 +42,7 @@ fn compile_shader(src: &str, ty:GLenum) -> GLuint {
     unsafe {
         shader = gl::CreateShader(ty);
         gl::ShaderSource(shader, 1, &ffi::CString::from_slice(src.as_bytes()).as_ptr(), ptr::null());
+        //gl::ShaderSource(shader, 1, &&ffi::CString::from_slice(src.as_bytes()).as_slice_with_nul()[0], ptr::null());
         gl::CompileShader(shader);
         // Get the status
         let mut status = gl::FALSE as GLint;
@@ -92,6 +93,8 @@ fn link_program(vertexShader: GLuint, fragmentShader: GLuint) -> GLuint {
 
 fn main() {
     sdl2::init(sdl2::INIT_VIDEO);
+    sdl2::video::gl_set_attribute(sdl2::video::GLAttr::GLContextMajorVersion, 3);
+    sdl2::video::gl_set_attribute(sdl2::video::GLAttr::GLContextMinorVersion, 3);
     let window = match Window::new("rust-sdl2: Video", WindowPos::PosCentered, WindowPos::PosCentered, 800, 600, OPENGL) {
         Ok(window) => window,
         Err(err) => panic!("faid to create window: {}", err)
@@ -127,6 +130,7 @@ fn main() {
                        gl::STATIC_DRAW);
         gl::UseProgram(program);
         //"out_color".with_c_str(|ptr| gl::GetAttribLocation(program, ptr));
+        println!("POST COMPILE");
         gl::GetAttribLocation(program, ffi::CString::from_slice("out_color".as_bytes()).as_ptr());
 
         // specify location of vertex data
