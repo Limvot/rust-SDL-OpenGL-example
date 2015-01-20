@@ -16,25 +16,24 @@ use std::str;
 use std::ffi;
 use collections::vec;
 
-static VERTEX_DATA: [GLfloat; 6] = [
-    0.0, 0.5,
-    0.5, -0.5,
-    -0.5, -0.5
-
+static VERTEX_DATA: [GLfloat; 9] = [
+    0.0, 0.5, 0.0,
+    0.5, -0.5, 0.0,
+    -0.5, -0.5, 0.0
 ];
 
 static VS_SRC: &'static str =
     "#version 150\n\
-    in vec2 position;\n\
+    in vec3 position;\n\
     void main() {\n\
-        gl_Position = vec4(position, 0.0, 1.0);\n\
+        gl_Position = vec4(position, 1.0);\n\
     }";
 
 static FS_SRC: &'static str =
     "#version 150\n\
     out vec4 out_color;\n\
     void main() {\n\
-        out_color = vec4(1.0, 0.5, 1.0, 1.0);\n\
+        out_color = vec4(1.0, 0.5, 0.5, 1.0);\n\
     }";
 
 fn compile_shader(src: &str, ty:GLenum) -> GLuint {
@@ -42,23 +41,17 @@ fn compile_shader(src: &str, ty:GLenum) -> GLuint {
     unsafe {
         shader = gl::CreateShader(ty);
         gl::ShaderSource(shader, 1, &ffi::CString::from_slice(src.as_bytes()).as_ptr(), ptr::null());
-        //gl::ShaderSource(shader, 1, &&ffi::CString::from_slice(src.as_bytes()).as_slice_with_nul()[0], ptr::null());
         gl::CompileShader(shader);
         // Get the status
         let mut status = gl::FALSE as GLint;
         gl::GetShaderiv(shader, gl::COMPILE_STATUS, &mut status);
         
         // If there was an error
-        println!("status is {}", status);
         if status != (gl::TRUE as GLint) {
             let mut len = 0;
             gl::GetShaderiv(shader, gl::INFO_LOG_LENGTH, &mut len);
-            //let mut buf = Vec::from_elem(len as uint -1, 0u8); // -1 to skip trailing null
-            //let mut buf = vec![(len - 1) as u8]; // -1 to skip trailing null
-            println!("length {}", len);
             let mut buf: Vec<u8> = Vec::with_capacity((len-1) as usize); // -1 to skip trailing null
             gl::GetShaderInfoLog(shader, len, ptr::null_mut(), buf.as_mut_ptr() as *mut GLchar);
-            //panic!("{}", str::from_utf8(buf.as_slice()).expect("ShaderInfoLog not valid utf8"));
             panic!("{}", str::from_utf8(buf.as_slice()).unwrap());
         }
     }
@@ -74,16 +67,11 @@ fn link_program(vertexShader: GLuint, fragmentShader: GLuint) -> GLuint {
         // Link status
         let mut status = gl::FALSE as GLint;
         gl::GetProgramiv(program, gl::LINK_STATUS, &mut status);
-        println!("status is {}", status);
         if status != (gl::TRUE as GLint) {
             let mut len: GLint = 0;
             gl::GetProgramiv(program, gl::INFO_LOG_LENGTH, &mut len);
-            //let mut buf = Vec::from_elem(len as uint -1, 0u8); // -1 to skip trailing null
-            //let mut buf = vec![(len as uint -1) as u8]; // -1 to skip trailing null
             let mut buf: Vec<u8> = Vec::with_capacity((len-1) as usize); // -1 to skip trailing null
-            println!("length {}", len);
             gl::GetProgramInfoLog(program, len, ptr::null_mut(), buf.as_mut_ptr() as *mut GLchar);
-            //panic!("{}", str::from_utf8(buf.as_slice()).expect("ProgramInfoLog not valid utf8"));
             panic!("{}", str::from_utf8(buf.as_slice()).unwrap());
         }
         program
@@ -102,24 +90,15 @@ fn main() {
         Ok(window) => window,
         Err(err) => panic!("faid to create window: {}", err)
     };
-    //{
-        //let renderer = match Renderer::from_window(window, RenderDriverIndex::Auto, ACCELERATED) {
-            //Ok(renderer) => renderer,
-            //Err(err) => panic!("faid to create renderer: {}", err)
-        //};
-        //let _ = renderer.set_draw_color(Color::RGB(255,0,0));
-        //let _ = renderer.clear();
-        //renderer.present();
-    //}
 
-    //window.gl_create_context();
+    // MUST ASSIGN RESULT THIS TO A VARIABLE
+    // Otherwise, it gets deleted or is optimized out or something
     let context = window.gl_create_context().unwrap();
     gl::load_with(|s| unsafe { std::mem::transmute(sdl2::video::gl_get_proc_address(s)) });
 
     let vertexShader = compile_shader(VS_SRC, gl::VERTEX_SHADER);
     let fragmentShader = compile_shader(FS_SRC, gl::FRAGMENT_SHADER);
     let program = link_program(vertexShader, fragmentShader);
-    //println!("a {}", context);
 
     let mut vao = 0;
     let mut vbo = 0;
@@ -136,15 +115,12 @@ fn main() {
                        mem::transmute(&VERTEX_DATA[0]),
                        gl::STATIC_DRAW);
         gl::UseProgram(program);
-        //"out_color".with_c_str(|ptr| gl::GetAttribLocation(program, ptr));
-        println!("POST COMPILE");
         gl::GetAttribLocation(program, ffi::CString::from_slice("out_color".as_bytes()).as_ptr());
 
         // specify location of vertex data
-        //let pos_attr = "position".with_c_str(|ptr| gl::GetAttribLocation(program, ptr));
-        let pos_attr = gl::GetAttribLocation(program, ffi::CString::from_slice("out_color".as_bytes()).as_ptr());
+        let pos_attr = gl::GetAttribLocation(program, ffi::CString::from_slice("position".as_bytes()).as_ptr());
         gl::EnableVertexAttribArray(pos_attr as GLuint);
-        gl::VertexAttribPointer(pos_attr as GLuint, 2, gl::FLOAT,
+        gl::VertexAttribPointer(pos_attr as GLuint, 3, gl::FLOAT,
                                 gl::FALSE as GLboolean, 0, ptr::null());
     }
 
@@ -159,7 +135,7 @@ fn main() {
             _ => {}
         }
         unsafe {
-            gl::ClearColor(0.3, 0.3, 0.3, 1.0);
+            gl::ClearColor(0.3, 0.3, 0.5, 1.0);
             gl::Clear(gl::COLOR_BUFFER_BIT);
             gl::DrawArrays(gl::TRIANGLES, 0, 3);
         }
@@ -174,7 +150,5 @@ fn main() {
         gl::DeleteVertexArrays(1, &vao);
     }
     sdl2::quit();
-
-    println!("Hello, world!");
 }
 
