@@ -34,7 +34,7 @@ static FS_SRC: &'static str =
     "#version 150\n\
     out vec4 out_color;\n\
     void main() {\n\
-        out_color = vec4(1.0, 1.0, 1.0, 1.0);\n\
+        out_color = vec4(1.0, 0.5, 1.0, 1.0);\n\
     }";
 
 fn compile_shader(src: &str, ty:GLenum) -> GLuint {
@@ -93,26 +93,33 @@ fn link_program(vertexShader: GLuint, fragmentShader: GLuint) -> GLuint {
 
 fn main() {
     sdl2::init(sdl2::INIT_VIDEO);
+    sdl2::video::gl_set_attribute(sdl2::video::GLAttr::GLContextProfileMask, sdl2::video::GLProfile::GLCoreProfile as isize);
     sdl2::video::gl_set_attribute(sdl2::video::GLAttr::GLContextMajorVersion, 3);
     sdl2::video::gl_set_attribute(sdl2::video::GLAttr::GLContextMinorVersion, 3);
+    sdl2::video::gl_set_attribute(sdl2::video::GLAttr::GLDoubleBuffer, 1);
+    sdl2::video::gl_set_attribute(sdl2::video::GLAttr::GLDepthSize, 24);
     let window = match Window::new("rust-sdl2: Video", WindowPos::PosCentered, WindowPos::PosCentered, 800, 600, OPENGL) {
         Ok(window) => window,
         Err(err) => panic!("faid to create window: {}", err)
     };
-    //let renderer = match Renderer::from_window(window, RenderDriverIndex::Auto, ACCELERATED) {
-        //Ok(renderer) => renderer,
-        //Err(err) => panic!("faid to create renderer: {}", err)
-    //};
-    //let _ = renderer.set_draw_color(Color::RGB(255,0,0));
-    //let _ = renderer.clear();
-    //renderer.present();
-    window.gl_create_context();
+    //{
+        //let renderer = match Renderer::from_window(window, RenderDriverIndex::Auto, ACCELERATED) {
+            //Ok(renderer) => renderer,
+            //Err(err) => panic!("faid to create renderer: {}", err)
+        //};
+        //let _ = renderer.set_draw_color(Color::RGB(255,0,0));
+        //let _ = renderer.clear();
+        //renderer.present();
+    //}
 
+    //window.gl_create_context();
+    let context = window.gl_create_context().unwrap();
     gl::load_with(|s| unsafe { std::mem::transmute(sdl2::video::gl_get_proc_address(s)) });
 
     let vertexShader = compile_shader(VS_SRC, gl::VERTEX_SHADER);
     let fragmentShader = compile_shader(FS_SRC, gl::FRAGMENT_SHADER);
     let program = link_program(vertexShader, fragmentShader);
+    //println!("a {}", context);
 
     let mut vao = 0;
     let mut vbo = 0;
