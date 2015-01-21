@@ -2,7 +2,7 @@
 name = "rustSDLOpenGL_test"
 version = "0.0.1"
 dependencies = [
- "gl 0.0.5 (git+https://github.com/bjz/gl-rs)",
+ "gl 0.0.6 (git+https://github.com/bjz/gl-rs)",
  "sdl2 0.0.18 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
@@ -13,8 +13,8 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "gl"
-version = "0.0.5"
-source = "git+https://github.com/bjz/gl-rs#f28b4c0fbc98b4614b29cfaacb4110f0b73f5685"
+version = "0.0.6"
+source = "git+https://github.com/bjz/gl-rs#a5be6727b9248835d3d00dba83d14a7fb4a55925"
 dependencies = [
  "gl_common 0.0.3 (git+https://github.com/bjz/gl-rs)",
  "gl_generator 0.0.12 (git+https://github.com/bjz/gl-rs)",
@@ -24,12 +24,12 @@ dependencies = [
 [[package]]
 name = "gl_common"
 version = "0.0.3"
-source = "git+https://github.com/bjz/gl-rs#f28b4c0fbc98b4614b29cfaacb4110f0b73f5685"
+source = "git+https://github.com/bjz/gl-rs#a5be6727b9248835d3d00dba83d14a7fb4a55925"
 
 [[package]]
 name = "gl_generator"
 version = "0.0.12"
-source = "git+https://github.com/bjz/gl-rs#f28b4c0fbc98b4614b29cfaacb4110f0b73f5685"
+source = "git+https://github.com/bjz/gl-rs#a5be6727b9248835d3d00dba83d14a7fb4a55925"
 dependencies = [
  "gl_common 0.0.3 (git+https://github.com/bjz/gl-rs)",
  "khronos_api 0.0.5 (git+https://github.com/bjz/gl-rs)",
@@ -40,7 +40,7 @@ dependencies = [
 [[package]]
 name = "khronos_api"
 version = "0.0.5"
-source = "git+https://github.com/bjz/gl-rs#f28b4c0fbc98b4614b29cfaacb4110f0b73f5685"
+source = "git+https://github.com/bjz/gl-rs#a5be6727b9248835d3d00dba83d14a7fb4a55925"
 
 [[package]]
 name = "log"
