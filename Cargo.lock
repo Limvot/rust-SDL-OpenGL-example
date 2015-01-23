@@ -15,7 +15,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [[package]]
 name = "gl"
 version = "0.0.6"
-source = "git+https://github.com/bjz/gl-rs#a5be6727b9248835d3d00dba83d14a7fb4a55925"
+source = "git+https://github.com/bjz/gl-rs#79933ec9beaf6aedeff8d7bafddadfde7d9d5021"
 dependencies = [
  "gl_common 0.0.3 (git+https://github.com/bjz/gl-rs)",
  "gl_generator 0.0.12 (git+https://github.com/bjz/gl-rs)",
@@ -25,27 +25,27 @@ dependencies = [
 [[package]]
 name = "gl_common"
 version = "0.0.3"
-source = "git+https://github.com/bjz/gl-rs#a5be6727b9248835d3d00dba83d14a7fb4a55925"
+source = "git+https://github.com/bjz/gl-rs#79933ec9beaf6aedeff8d7bafddadfde7d9d5021"
 
 [[package]]
 name = "gl_generator"
 version = "0.0.12"
-source = "git+https://github.com/bjz/gl-rs#a5be6727b9248835d3d00dba83d14a7fb4a55925"
+source = "git+https://github.com/bjz/gl-rs#79933ec9beaf6aedeff8d7bafddadfde7d9d5021"
 dependencies = [
  "gl_common 0.0.3 (git+https://github.com/bjz/gl-rs)",
  "khronos_api 0.0.5 (git+https://github.com/bjz/gl-rs)",
- "log 0.1.9 (registry+https://github.com/rust-lang/crates.io-index)",
- "xml-rs 0.1.13 (registry+https://github.com/rust-lang/crates.io-index)",
+ "log 0.1.10 (registry+https://github.com/rust-lang/crates.io-index)",
+ "xml-rs 0.1.15 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
 name = "khronos_api"
 version = "0.0.5"
-source = "git+https://github.com/bjz/gl-rs#a5be6727b9248835d3d00dba83d14a7fb4a55925"
+source = "git+https://github.com/bjz/gl-rs#79933ec9beaf6aedeff8d7bafddadfde7d9d5021"
 
 [[package]]
 name = "log"
-version = "0.1.9"
+version = "0.1.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "regex 0.1.10 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -53,7 +53,7 @@ dependencies = [
 
 [[package]]
 name = "pkg-config"
-version = "0.1.5"
+version = "0.1.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
@@ -75,7 +75,7 @@ name = "sdl2-sys"
 version = "0.0.16"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
- "pkg-config 0.1.5 (registry+https://github.com/rust-lang/crates.io-index)",
+ "pkg-config 0.1.6 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -85,7 +85,7 @@ source = "git+https://github.com/Limvot/rust-sdl2_net#968b3a277ebba341af3097f127
 
 [[package]]
 name = "xml-rs"
-version = "0.1.13"
+version = "0.1.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "bitflags 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
