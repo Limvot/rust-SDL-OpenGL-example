@@ -1,6 +1,7 @@
 extern crate sdl2;
 extern crate collections;
 extern crate gl;
+extern crate sdl2_net;
 
 use sdl2::video::{Window, WindowPos, OPENGL, gl_set_attribute};
 use sdl2::render::{RenderDriverIndex, ACCELERATED, Renderer};
@@ -81,6 +82,14 @@ fn link_program(vertexShader: GLuint, fragmentShader: GLuint) -> GLuint {
 
 fn main() {
     sdl2::init(sdl2::INIT_VIDEO);
+
+    // Some SDL2_net tests
+
+    unsafe { sdl2_net::ffi::SDLNet_Init(); }
+    //return;
+
+    //
+
     sdl2::video::gl_set_attribute(sdl2::video::GLAttr::GLContextProfileMask, sdl2::video::GLProfile::GLCoreProfile as isize);
     sdl2::video::gl_set_attribute(sdl2::video::GLAttr::GLContextMajorVersion, 3);
     sdl2::video::gl_set_attribute(sdl2::video::GLAttr::GLContextMinorVersion, 3);

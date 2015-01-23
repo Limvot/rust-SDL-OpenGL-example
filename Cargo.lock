@@ -4,6 +4,7 @@ version = "0.0.1"
 dependencies = [
  "gl 0.0.6 (git+https://github.com/bjz/gl-rs)",
  "sdl2 0.0.18 (registry+https://github.com/rust-lang/crates.io-index)",
+ "sdl2_net 0.0.1 (git+https://github.com/Limvot/rust-sdl2_net)",
 ]
 
 [[package]]
@@ -76,6 +77,11 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "pkg-config 0.1.5 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
+
+[[package]]
+name = "sdl2_net"
+version = "0.0.1"
+source = "git+https://github.com/Limvot/rust-sdl2_net#968b3a277ebba341af3097f127b7d980478693ea"
 
 [[package]]
 name = "xml-rs"
