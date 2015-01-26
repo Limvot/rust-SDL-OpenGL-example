@@ -81,7 +81,7 @@ dependencies = [
 [[package]]
 name = "sdl2_net"
 version = "0.0.1"
-source = "git+https://github.com/Limvot/rust-sdl2_net#bf8f9496f09f06f4a0aba9732db6f99557893abb"
+source = "git+https://github.com/Limvot/rust-sdl2_net#24388889b73d3bafbcd98575b6ab1e7e242ddb13"
 
 [[package]]
 name = "xml-rs"
